@@ -145,8 +145,17 @@ final public class UserContentController: WKUserContentController {
     }
 
     public override func removeAllUserScripts() {
-        super.removeAllUserScripts()
-        self.contentBlockingAssets?.userScripts.userScripts.forEach(self.removeHandler)
+        let removeUserScriptSelector = NSSelectorFromString("_removeUserScript:")
+        if responds(to: removeUserScriptSelector) {
+            // Remove only scripts equivalent to content blocking
+            // assets' scripts that are currently loaded.
+            let contentBlockingUserScriptsSources = contentBlockingAssets?.userScripts.userScripts.map { $0.makeWKUserScript().source } ?? []
+            let scriptsToRemove = userScripts.filter { contentBlockingUserScriptsSources.contains($0.source) }
+            scriptsToRemove.forEach({ perform(removeUserScriptSelector, with: $0) })
+        } else {
+            super.removeAllUserScripts()
+        }
+        contentBlockingAssets?.userScripts.userScripts.forEach(self.removeHandler)
     }
 
     func addHandlerNoContentWorld(_ userScript: UserScript) {
