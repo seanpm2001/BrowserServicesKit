@@ -25,6 +25,7 @@ let package = Package(
         .library(name: "Networking", targets: ["Networking"]),
         .library(name: "Navigation", targets: ["Navigation"]),
         .library(name: "SyncDataProviders", targets: ["SyncDataProviders"]),
+        .library(name: "Waitlist", targets: ["Waitlist"]),
     ],
     dependencies: [
         .package(url: "https://github.com/duckduckgo/duckduckgo-autofill.git", exact: "7.2.0"),
@@ -174,8 +175,12 @@ let package = Package(
             dependencies: [
                 "Networking"
             ]),
+        .target(
+            name: "Waitlist"
+        ),
 
         // MARK: - Test targets
+
         .testTarget(
             name: "BookmarksTests",
             dependencies: [
@@ -254,6 +259,12 @@ let package = Package(
                 "BookmarksTestsUtils",
                 "SyncDataProviders"
             ]
-        )
+        ),
+        .testTarget(
+            name: "WaitlistTests",
+            dependencies: [
+                "Waitlist"
+            ]
+        ),
     ]
 )
