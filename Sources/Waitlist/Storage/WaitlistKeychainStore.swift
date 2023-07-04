@@ -87,7 +87,9 @@ public class WaitlistKeychainStore: WaitlistStorage {
             kSecClass as String: kSecClassGenericPassword,
             kSecMatchLimit as String: kSecMatchLimitOne,
             kSecAttrService as String: keychainServiceName(for: field),
-            kSecReturnData as String: true]
+            kSecReturnData as String: true,
+            kSecUseDataProtectionKeychain as String: true
+        ]
 
         var item: CFTypeRef?
         let status = SecItemCopyMatching(query as CFDictionary, &item)
@@ -115,7 +117,9 @@ public class WaitlistKeychainStore: WaitlistStorage {
             kSecAttrSynchronizable as String: false,
             kSecAttrService as String: keychainServiceName(for: field),
             kSecAttrAccessible as String: kSecAttrAccessibleAfterFirstUnlock,
-            kSecValueData as String: data]
+            kSecValueData as String: data,
+            kSecUseDataProtectionKeychain as String: true
+        ]
 
         SecItemAdd(query as CFDictionary, nil)
     }
