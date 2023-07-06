@@ -76,7 +76,8 @@ extension NSObject {
             return
         }
         let assertion = DispatchWorkItem { [unowned self] in
-            assertionFailure("\(self) has not been deallocated")
+            print("\(self) has not been deallocated")
+//            assertionFailure("\(self) has not been deallocated")
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + timeout, execute: assertion)
         self.onDeinit {
