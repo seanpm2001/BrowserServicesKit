@@ -52,7 +52,7 @@ public final class NetworkProtectionCodeRedemptionCoordinator: NetworkProtection
 
         case .failure(let error):
             errorEvents.fire(error.networkProtectionError)
-            throw error
+            throw error.networkProtectionError
         }
     }
 }
